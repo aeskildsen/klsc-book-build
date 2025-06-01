@@ -1,0 +1,168 @@
+\documentclass[oneside, a4paper, 11pt]{memoir}
+
+\usepackage[danish]{babel}        % for Danish metatext
+\usepackage{graphicx}             % for figures
+\usepackage[chapter]{minted}      % for code highlighting
+\usepackage{csquotes}             % for proper quotation marks
+\usepackage{caption}              % to better control captions
+\usepackage{fontspec}             % for font specifiation
+\usepackage{textcomp}             % for special symbols
+\usepackage{fontawesome5}         % for FA icons
+\usepackage{relsize}              % for specifying relative font sizes
+\usepackage{titlesec}             % to better control section headings
+\usepackage{xcolor,pagecolor}     % for coloring links and page backgrounds
+\usepackage[hidelinks]{hyperref}  % to make links between sections etc.
+\usepackage{enumitem}             % to style lists
+\usepackage{pdfpages}             % to include cover page
+\usepackage[
+  protrusion=true,
+  expansion=true,
+  tracking=true
+  ]{microtype}                    % to address overflowing margins
+\usepackage[
+  style=authoryear-icomp
+  ]{biblatex}                     % for literature references
+
+\addbibresource{../komposition-og-lydproduktion-med-supercollider/bib_assets/klsc.bib}
+
+% Font settings
+\setmainfont{Source Sans Pro}
+\setmonofont[Contextuals={Alternate}]{Fira Code}
+
+% Page background colors
+\definecolor{exercise}{HTML}{BCFFCD}
+\definecolor{cheatsheet}{HTML}{C1EEFF}
+\definecolor{normal}{rgb}{1, 1, 1}
+
+% Layout setup
+\chapterstyle{veelo}
+\hangsecnum
+\setsecheadstyle{\large\bfseries}
+\setsubsecheadstyle{\normalsize\bfseries}
+\setsubsubsecheadstyle{\normalsize\itshape}
+\setsecnumdepth{subsection}
+
+\parindent=0pt
+\parskip=1em
+\setlength\bibitemsep{\itemsep}
+
+\captionsetup{skip=0.5em, font=footnotesize}
+
+\copypagestyle{chapter}{plain}
+\makeevenfoot{ruled}{}{\footnotesize\thepage}{}
+\makeoddfoot{ruled}{}{\footnotesize\thepage}{}
+\makeevenfoot{chapter}{}{\footnotesize\thepage}{}
+\makeoddfoot{chapter}{}{\footnotesize\thepage}{}
+
+\pagestyle{ruled}
+
+% Settings for code listings
+\definecolor{bg}{rgb}{0.95, 0.955, 0.945} % code block background color
+\definecolor{hl}{rgb}{0.85, 0.92, 0.85} % code block highlight color
+\setminted{
+  style=friendly,
+  frame=single,
+  framesep=1mm,
+  framerule=1pt,
+  xleftmargin=0em,
+  xrightmargin=0em,
+  numbersep=0.6em,
+  linenos=true,
+  bgcolor=bg,
+  bgcolorpadding=0.5em,
+  breaklines=true,
+  highlightcolor=hl,
+  ignorelexererrors=true,
+  fontsize=\footnotesize,
+}
+\setmintedinline{
+  bgcolor=none,
+  style=friendly,
+  breaklines=true,
+  breakanywhere=true,
+  breakautoindent=true,
+  fontsize=\relsize{-1}
+}
+\renewcommand{\listingscaption}{Kodeboks}
+\renewcommand{\listoflistingscaption}{Kodebokse}
+\renewcommand{\listoflistings}{%
+  %\cleardoublepage
+  \addcontentsline{toc}{chapter}{\listoflistingscaption}%
+  \listof{listing}{\listoflistingscaption}%
+}
+\AtBeginEnvironment{minted}{\setlength{\parskip}{0pt}}
+
+% List settings
+\setlist{noitemsep}
+\setlist[description]{style=nextline}
+\setlist[itemize]{leftmargin=1.7em, labelindent=0pt, label=\faAngleRight}
+\setlist[enumerate]{leftmargin=1.7em, labelindent=0pt}
+\AtBeginEnvironment{itemize}{\setlength{\parskip}{0.1em}}
+\AtBeginEnvironment{enumerate}{\setlength{\parskip}{0.1em}}
+
+% Metadata
+\title{Musik- og lydprogrammering med SuperCollider}
+\author{Anders Eskildsen}
+\date{\today}
+
+% Misc
+\hfuzz=2pt
+\vfuzz=2pt
+
+\hypersetup{
+  bookmarksnumbered,
+  % Black links for TOC
+  colorlinks,
+  linkcolor={black},
+  citecolor={black},
+  urlcolor={black}
+}
+
+\setcounter{tocdepth}{1}
+  
+\begin{document}
+
+\frontmatter
+\includepdf{pdfincludes/coverpage.pdf}
+\tableofcontents
+
+\hypersetup{
+  % Colored links for main book body
+  linkcolor={red!50!black},
+  citecolor={green!20!black},
+  urlcolor={blue!32!black}
+}
+
+\include{chapters/chap99.tex}
+
+\mainmatter
+
+\setcounter{chapter}{-1}
+
+\include{chapters/chap00.tex}
+\include{chapters/chap01.tex}
+\include{chapters/chap02.tex}
+\include{chapters/chap03.tex}
+\include{chapters/chap04.tex}
+\include{chapters/chap05.tex}
+\include{chapters/chap06.tex}
+\include{chapters/chap07.tex}
+\include{chapters/chap08.tex}
+\include{chapters/chap09.tex}
+\include{chapters/chap10.tex}
+
+\backmatter
+
+\pagecolor{normal}
+\hypersetup{
+  % Black links for back matter
+  linkcolor={black},
+  citecolor={black},
+  urlcolor={black}
+}
+
+\listoffigures
+%\listoflistings
+\printbibliography[title={Litteratur}]
+
+\end{document}

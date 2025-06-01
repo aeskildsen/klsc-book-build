@@ -1,0 +1,82 @@
+{
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [ 
+            { // Full build from Markdown to pdf
+                "label": "full markdown to PDF build",
+                "type": "shell",
+                "command": "${workspaceFolder}/build_scripts/build.sh",
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "problemMatcher": [],
+                "options": {
+                    "cwd": "${workspaceFolder}/build_scripts"
+                }
+            },
+            { // Partial build from Markdown to TeX
+                "label": "markdown 2 tex build",
+                "type": "shell",
+                "command": "${workspaceFolder}/build_scripts/m2t.sh",
+                "group": {
+                    "kind": "build",
+                    "isDefault": false
+                },
+                "problemMatcher": [],
+                "options": {
+                    "cwd": "${workspaceFolder}/build_scripts"
+                }
+            },
+            { // Partial build from TeX to pdf
+                "label": "tex 2 pdf build",
+                "type": "shell",
+                "command": "${workspaceFolder}/build_scripts/t2p.sh",
+                "group": {
+                    "kind": "build",
+                    "isDefault": false
+                },
+                "problemMatcher": [],
+                "options": {
+                    "cwd": "${workspaceFolder}/build_scripts"
+                }
+            },
+            { // Clean build from Markdown to pdf
+                "label": "clean build",
+                "type": "shell",
+                "command": "${workspaceFolder}/build_scripts/clean-build.sh",
+                "group": {
+                    "kind": "build",
+                    "isDefault": false
+                },
+                "problemMatcher": [],
+                "options": {
+                    "cwd": "${workspaceFolder}/build_scripts"
+                }
+            },
+            { // Build and serve MKdocs site locally
+                "label": "Activate subproject venv and run mkdocs",
+                "type": "shell",
+                "command": "source ${workspaceFolder}/komposition-og-lydproduktion-med-supercollider/.venv/bin/activate.fish && mkdocs serve",
+                "problemMatcher": [],
+                "options": {
+                    "cwd": "${workspaceFolder}/komposition-og-lydproduktion-med-supercollider"
+                }
+            },
+
+        ]
+    },
+    "keybindings": [
+        {
+            "key": "ctrl+shift+b",
+            "command": "workbench.action.runTask",
+            "args": "build"
+        },
+        {
+            "key": "ctrl+alt+u",
+            "command": "workbench.action.tasks.runTask",
+            "args": "Update media"
+        }
+    ],
+    "latex-workshop.latex.autoBuild.run": "never",
+}

@@ -1,0 +1,6 @@
+[submodule "md2tex"]
+	path = md2tex
+	url = git@github.com:aeskildsen/md2tex.git
+[submodule "komposition-og-lydproduktion-med-supercollider"]
+	path = komposition-og-lydproduktion-med-supercollider
+	url = git@gitlab.com:aeskildsen/komposition-og-lydproduktion-med-supercollider.git

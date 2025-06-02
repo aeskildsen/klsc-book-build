@@ -11,7 +11,7 @@ Functions:
         Converts all markdown files in a directory to a LaTeX chapter, handling media files.
 Usage:
     Run the script with the following command:
-    python mkdocsparse.py <mkdocs_folder> <tex_outpath> <frontmatter_outpath>
+    python parse_docs.py <mkdocs_folder> <tex_outpath> <frontmatter_outpath>
     Arguments:
         mkdocs_folder: Path to the MkDocs directory.
         tex_outpath: Path to the main output LaTeX file.
@@ -19,7 +19,7 @@ Usage:
     Flags:
         --convert-to-pdf: Convert the processed site into PDF form after converting to TeX.
 Example:
-    python mkdocsparse.py /path/to/mkdocs /path/to/output/mainmatter.tex /path/to/output/frontmatter.tex
+    python parse_docs.py /path/to/mkdocs /path/to/output/mainmatter.tex /path/to/output/frontmatter.tex
 """
 import os
 import sys
@@ -35,7 +35,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'md2tex'))
 
 from md2tex import convert as convert_md2tex
 
-BASE_URL = 'https://aeskildsen.gitlab.io/komposition-og-lydproduktion-med-supercollider'
+BASE_URL = 'https://sc.anderseskildsen.eu/'
 IGNORED_MD_FILES_LIST = 'build_scripts/ignored_MD_files.txt'
 SOLOED_MD_FILES_LIST = 'build_scripts/soloed_MD_files.txt'
 PREFACE_MD_FILE = './komposition-og-lydproduktion-med-supercollider/book-preface.md'
@@ -257,7 +257,7 @@ def convert_section(md_file_path: str):
 
     # add a label to each section for use in cross references
     md_filename = os.path.basename(md_file_path)
-    section_page_url = BASE_URL + md_file_path.replace('./docs/', '').replace('.md', '/')
+    section_page_url = BASE_URL + md_file_path.replace('komposition-og-lydproduktion-med-supercollider/docs/', '').replace('.md', '/')
     tex = re.sub(
         r"(\\section{.+?}\n)",
         r"\1\\label{" + md_filename + r"}%" + section_page_url + "\n",

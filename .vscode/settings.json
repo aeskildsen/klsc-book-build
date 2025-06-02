@@ -63,6 +63,16 @@
                     "cwd": "${workspaceFolder}/komposition-og-lydproduktion-med-supercollider"
                 }
             },
+            { // Sync media files and .bib file from local sources
+                "label": "Sync media and .bib file",
+                "type": "shell",
+                "command": "${workspaceFolder}/komposition-og-lydproduktion-med-supercollider/custom_scripts/sync_media.sh",
+                "group": {
+                    "kind": "build",
+                    "isDefault": false
+                },
+                "problemMatcher": []
+            },
 
         ]
     },

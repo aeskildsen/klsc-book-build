@@ -5,7 +5,7 @@
 \usepackage[chapter]{minted}      % for code highlighting
 \usepackage{csquotes}             % for proper quotation marks
 \usepackage{caption}              % to better control captions
-\usepackage{fontspec}             % for font specifiation
+\usepackage{fontspec}             % for font specification
 \usepackage{textcomp}             % for special symbols
 \usepackage{fontawesome5}         % for FA icons
 \usepackage{relsize}              % for specifying relative font sizes
@@ -14,13 +14,15 @@
 \usepackage[hidelinks]{hyperref}  % to make links between sections etc.
 \usepackage{enumitem}             % to style lists
 \usepackage{pdfpages}             % to include cover page
+\usepackage{amsmath}              % for math symbols
 \usepackage[
   protrusion=true,
   expansion=true,
   tracking=true
   ]{microtype}                    % to address overflowing margins
 \usepackage[
-  style=authoryear-icomp
+  url=true,
+  style=apa
   ]{biblatex}                     % for literature references
 
 \addbibresource{../komposition-og-lydproduktion-med-supercollider/bib_assets/klsc.bib}
@@ -30,8 +32,8 @@
 \setmonofont[Contextuals={Alternate}]{Fira Code}
 
 % Page background colors
-\definecolor{exercise}{HTML}{BCFFCD}
-\definecolor{cheatsheet}{HTML}{C1EEFF}
+\definecolor{exercise}{rgb}{0.89, 1, 0.87}
+\definecolor{cheatsheet}{rgb}{0.9, 0.9, 1}
 \definecolor{normal}{rgb}{1, 1, 1}
 
 % Layout setup
@@ -48,13 +50,21 @@
 
 \captionsetup{skip=0.5em, font=footnotesize}
 
+\clubpenalty=10000  % Avoid orphans
+\widowpenalty=10000 % Avoid widows
+\displaywidowpenalty=10000
+
 \copypagestyle{chapter}{plain}
 \makeevenfoot{ruled}{}{\footnotesize\thepage}{}
 \makeoddfoot{ruled}{}{\footnotesize\thepage}{}
 \makeevenfoot{chapter}{}{\footnotesize\thepage}{}
 \makeoddfoot{chapter}{}{\footnotesize\thepage}{}
 
-\pagestyle{ruled}
+% For most of the frontmatter
+\copypagestyle{ruled_no_footer}{ruled}
+\makeevenfoot{ruled_no_footer}{}{}{}
+\makeoddfoot{ruled_no_footer}{}{}{}
+
 
 % Settings for code listings
 \definecolor{bg}{rgb}{0.95, 0.955, 0.945} % code block background color
@@ -103,9 +113,8 @@
 \AtBeginEnvironment{enumerate}{\setlength{\parskip}{0.1em}}
 
 % Metadata
-\title{Musik- og lydprogrammering med SuperCollider}
+\title{Komposition og lydproduktion med SuperCollider}
 \author{Anders Eskildsen}
-\date{\today}
 
 % Misc
 \hfuzz=2pt
@@ -120,37 +129,86 @@
   urlcolor={black}
 }
 
-\setcounter{tocdepth}{1}
-  
-\begin{document}
+\setcounter{tocdepth}{2}
 
-\frontmatter
-\includepdf{pdfincludes/coverpage.pdf}
-\tableofcontents
+\makeatletter
+\renewcommand{\cleartooddpage}{
+  \clearpage
+  \ifodd\c@page
+      % Already on odd page, do nothing
+  \else
+    \pagecolor{normal}
+    \thispagestyle{empty}
+    \hbox{}
+    \newpage
+  \fi
+}
+\makeatother
 
-\hypersetup{
-  % Colored links for main book body
-  linkcolor={red!50!black},
-  citecolor={green!20!black},
-  urlcolor={blue!32!black}
+\newcommand{\insertblankpage}{
+\newpage
+\thispagestyle{empty}
+~
+\newpage
 }
 
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}} 
+
+\begin{document}
+
+\includepdf{book_media/coverpage.pdf}
+
+\insertblankpage
+
+\include{titlepage.tex}
+\include{kolofon.tex}
+
+\pagestyle{ruled_no_footer}
+\pdfbookmark[1]{Indhold}{toc}
+\tableofcontents*
+\clearpage
+\thispagestyle{empty}
+
+\hypersetup{
+  % Use colored links in the main body of the book
+  linkcolor={green!40!black},
+  citecolor={green!25!black},
+  urlcolor={blue!35!black}
+}
+
+\frontmatter
+\pagestyle{ruled}
+
+\cleartooddpage
+% This is the preface - the file is named chap99.tex because that's the easiest solution in the parse_docs.py script
 \include{chapters/chap99.tex}
 
 \mainmatter
 
 \setcounter{chapter}{-1}
 
+\cleartooddpage
+\setcounter{page}{1}
 \include{chapters/chap00.tex}
+\cleartooddpage
 \include{chapters/chap01.tex}
+\cleartooddpage
 \include{chapters/chap02.tex}
+\cleartooddpage
 \include{chapters/chap03.tex}
+\cleartooddpage
 \include{chapters/chap04.tex}
+\cleartooddpage
 \include{chapters/chap05.tex}
+\cleartooddpage
 \include{chapters/chap06.tex}
+\cleartooddpage
 \include{chapters/chap07.tex}
+\cleartooddpage
 \include{chapters/chap08.tex}
+\cleartooddpage
 \include{chapters/chap09.tex}
+\cleartooddpage
 \include{chapters/chap10.tex}
 
 \backmatter
@@ -166,5 +224,7 @@
 \listoffigures
 \listoflistings
 \printbibliography[title={Referencer}]
+
+\includepdf{book_media/coverpage-back.pdf}
 
 \end{document}

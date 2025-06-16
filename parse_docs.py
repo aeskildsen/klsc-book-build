@@ -173,7 +173,7 @@ def postprocess_tex(tex: str):
     tex = re.sub(f"{ET}RESETPAGECOLOR{ET}", r'\\pagecolor{normal}', tex)
     tex = re.sub(f"{ET}Øvelser{ET}", r'\\pagecolor{exercise}', tex)
     tex = re.sub(f"{ET}Cheat sheets{ET}", r'\\pagecolor{cheatsheet}', tex)
-    tex = re.sub(ET + r"faHeadphones\*" + ET, r'\\faHeadphones*', tex)
+    tex = re.sub(ET + r"faHeadphones" + ET, r'\\faHeadphones*', tex)
     tex = re.sub(f"{ET}faLink{ET}", r'\\faLink', tex)
     tex = re.sub(ET + r"LABEL:([-\w]+)" + ET, r'\\label{\1}', tex)
     
@@ -193,7 +193,7 @@ def postprocess_tex(tex: str):
         match = example.group(0)
         escaped_string = example.group(1)
         old_icon_code = re.search(r"(\\faLink)(?!\\faHeadphones)", match, re.M).group(1)
-        new_icon_code = old_icon_code + "\\enskip\\faHeadphones*"
+        new_icon_code = old_icon_code + "\\enskip\\faHeadphones"
         tex = tex.replace(match, match.replace(old_icon_code, new_icon_code))
         tex = tex.replace(escaped_string, '')
         
@@ -204,7 +204,7 @@ def postprocess_tex(tex: str):
         escaped_line = re.search(ET + r"CAPTIONEDAUDIO:(.+?):(.+?)" + ET, f[0]).group(0)
         page_url, id, title = f[1], f[2], f[3]
         example_url = '#'.join([page_url, id])
-        tex = tex.replace(escaped_line, title + ": \\href{" + example_url + "}{\\faHeadphones*}")
+        tex = tex.replace(escaped_line, title + ": \\href{" + example_url + "}{\\faHeadphones}")
     
 
     # Replace \mintinline with \texttt in footnotes
@@ -273,7 +273,10 @@ def convert_section(md_file_path: str):
         tex_link = '\\href{' + url + '}{\\faLink}'
         caption_text = block.group(1)
         new_caption_text = caption_text + '\\hfill' + tex_link
+        # Insert new caption text with icon link
         new_segment = segment.replace(caption_text, new_caption_text)
+        # Add old caption as a short option to be used in \listoflistings
+        new_segment = new_segment.replace('\caption', r"\caption[" + caption_text + r"]")
         tex = tex.replace(segment, new_segment)
 
     return tex

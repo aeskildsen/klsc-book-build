@@ -83,14 +83,16 @@
   breakautoindent=true,
   fontsize=\relsize{-1}
 }
+\AtBeginEnvironment{minted}{\setlength{\parskip}{0pt}}
+
 \renewcommand{\listingscaption}{Kodeboks}
 \renewcommand{\listoflistingscaption}{Kodebokse}
 \renewcommand{\listoflistings}{%
-  %\cleardoublepage
+  \clearpage
+  \phantomsection
   \addcontentsline{toc}{chapter}{\listoflistingscaption}%
   \listof{listing}{\listoflistingscaption}%
 }
-\AtBeginEnvironment{minted}{\setlength{\parskip}{0pt}}
 
 % List settings
 \setlist{noitemsep}
@@ -162,7 +164,7 @@
 }
 
 \listoffigures
-%\listoflistings
-\printbibliography[title={Litteratur}]
+\listoflistings
+\printbibliography[title={Referencer}]
 
 \end{document}

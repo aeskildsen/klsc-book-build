@@ -4,4 +4,4 @@
 ./m2t.sh
 
 # Compile the pdf
-./t2p.sh
+time ./t2p.sh

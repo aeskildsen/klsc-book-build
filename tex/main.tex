@@ -25,6 +25,9 @@
   style=apa
   ]{biblatex}                     % for literature references
 
+\usepackage{etoolbox}
+\pretocmd{\section}{\clearpage}{}{}
+
 \addbibresource{../komposition-og-lydproduktion-med-supercollider/bib_assets/klsc.bib}
 
 % Font settings
@@ -39,10 +42,10 @@
 % Layout setup
 \chapterstyle{veelo}
 \hangsecnum
-\setsecheadstyle{\large\bfseries}
-\setsubsecheadstyle{\normalsize\bfseries}
-\setsubsubsecheadstyle{\normalsize\itshape}
-\setsecnumdepth{subsection}
+\setsecheadstyle{\Large\bfseries}
+\setsubsecheadstyle{\large\bfseries}
+\setsubsubsecheadstyle{\normalsize\bfseries}
+\setsecnumdepth{subsubsection}
 
 \parindent=0pt
 \parskip=1em
@@ -67,8 +70,8 @@
 
 
 % Settings for code listings
-\definecolor{bg}{rgb}{0.95, 0.955, 0.945} % code block background color
-\definecolor{hl}{rgb}{0.85, 0.92, 0.85} % code block highlight color
+\definecolor{code_bg}{rgb}{0.95, 0.955, 0.945} % code block background color
+\definecolor{code_hl}{rgb}{0.85, 0.92, 0.85} % code block highlight color
 \setminted{
   style=friendly,
   frame=single,
@@ -78,10 +81,10 @@
   xrightmargin=0em,
   numbersep=0.6em,
   linenos=true,
-  bgcolor=bg,
+  bgcolor=code_bg,
   bgcolorpadding=0.5em,
   breaklines=true,
-  highlightcolor=hl,
+  highlightcolor=code_hl,
   ignorelexererrors=true,
   fontsize=\footnotesize,
 }
@@ -97,16 +100,22 @@
 
 \renewcommand{\listingscaption}{Kodeboks}
 \renewcommand{\listoflistingscaption}{Kodebokse}
-\renewcommand{\listoflistings}{%
+\renewcommand{\listoflistings}{
   \clearpage
   \phantomsection
-  \addcontentsline{toc}{chapter}{\listoflistingscaption}%
-  \listof{listing}{\listoflistingscaption}%
+  \addcontentsline{toc}{chapter}{\listoflistingscaption}
+  \listof{listing}{\listoflistingscaption}
 }
+
+\DeclareRobustCommand{\sbseries}{\fontseries{sb}\selectfont}
+\DeclareTextFontCommand{\textsb}{\sbseries}
+
 
 % List settings
 \setlist{noitemsep}
 \setlist[description]{style=nextline}
+\renewcommand{\descriptionlabel}[1]{\textsc{#1}}
+
 \setlist[itemize]{leftmargin=1.7em, labelindent=0pt, label=\faAngleRight}
 \setlist[enumerate]{leftmargin=1.7em, labelindent=0pt}
 \AtBeginEnvironment{itemize}{\setlength{\parskip}{0.1em}}
@@ -179,16 +188,13 @@
 \frontmatter
 \pagestyle{ruled}
 
-\cleartooddpage
-% This is the preface - the file is named chap99.tex because that's the easiest solution in the parse_docs.py script
-\include{chapters/chap99.tex}
+\include{chapters/chap99.tex} % preface
 
 \mainmatter
 
 \setcounter{chapter}{-1}
 
 \cleartooddpage
-\setcounter{page}{1}
 \include{chapters/chap00.tex}
 \cleartooddpage
 \include{chapters/chap01.tex}

@@ -10,7 +10,7 @@ Here are some notes on setting up a build environment with the necessary tooling
 
 ### Get submodules
 
-We need to fetch two submodules:
+We need to fetch two submodules (after git cloning this repo and cd'ing into the project directory):
 
 - [*md2tex* fork by Anders Eskildsen](https://github.com/aeskildsen/md2tex), which does the heavy lifting when converting form Markdown to LaTeX
 - the [repo containing the book contents](https://aeskildsen.gitlab.com/komposition-og-lydproduktion-med-supercollider)
